@@ -1,0 +1,141 @@
+<?php
+
+session_start();
+if(!isset($_SESSION['email'])){
+    header("location:signup.php");
+    exit();
+}
+
+
+?>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classy Units</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+    rel="stylesheet"/>
+
+    <link rel="stylesheet"
+    href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+ 
+</head>
+<body>
+    <header>
+        <a href="" class="logo"><h2>Classy</h2></a>
+
+
+        <ul class="navbar">
+
+            <li><a href="index2.php" class="active">Home</a></li>
+            <li><a href="about.php">About</a></li>
+            <li><a href="service.php">Services</a></li>
+            <li><a href="index2.php"><?=$_SESSION['fname'];?></a></li>
+            <li><a href="logout.php">Logout</a></li>
+        </ul>
+        <div class="icons">
+            <div class="bx bx-menu" id="menu-icon">
+
+            </div>
+        </div>
+
+        
+    </header>
+     <!---body section-->
+ 
+        <!---new pdfs-->
+<section class="products">
+    <div class="middle-text">
+        <h2>New revision materials</h2>
+    </div>
+                 <div class="searchbar">
+                <form action="search.php" method="get">
+            <input type="text" name="my_search" placeholder="Search">
+            <button>Search</button>
+            </form>
+        </div>
+  
+    <div class="pdf-upload">
+      <table>
+            <thead>
+                <tr>
+                
+                    <th>Unit Name</th>
+                    <th>file size </th> 
+                    <th>Download</th>
+                </tr>
+            </thead>
+            <tbody>
+          <?php
+              include 'config.php';
+if(isset($_GET['my_search'])){
+
+    $search_value = $_GET['my_search'];
+    $sql = "SELECT * FROM pdf_data WHERE concat(username,filename)
+    LIKE '%$search_value%'";
+
+                   
+                              
+                              $squery = mysqli_query($conn, $sql);
+
+                              while (($result = mysqli_fetch_assoc($squery))) {
+                          ?>
+                          <tr>
+                           
+                            <td><?php echo $result['username']; ?></td>
+                            <td><?php echo $result['filename']; ?></td>
+                            <td> <a href="../pdf/<?php echo $result['filename']; ?>"><button>Download</button></a></td>
+                          </tr>
+                          <?php
+                               }
+                            }
+                          ?>
+       
+            </tbody>
+        </table>
+ 
+
+    </div>
+</section>
+        <!---footer-->
+        <section class="contact">
+            <div class="main-contact">
+                <div class="contact-content">
+                    <h5>Getting started</h5>
+                    <li><a href="">Support</a></li>
+                    <li><a href="">About</a></li>
+                    <li><a href="">Contact</a></li>
+                    <li><a href="">About</a></li>
+                </div>
+                <div class="contact-content">
+                    <h5>Explore</h5>
+                    <li><a href="">Support</a></li>
+                    <li><a href="">About</a></li>
+                    <li><a href="">Contact</a></li>
+                    <li><a href="adminsignup.php">Become Admin</a></li>
+                </div>
+            </div>
+
+        </section>
+
+        <div class="end-text">
+            <p>@2025 All Rights Reserved by Abraham Kibichii</p>
+        </div>
+
+
+
+    <!---js link-->
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script type="text/javascript" src="../js/script.js"></script>
+   
+</body>
+</html>
